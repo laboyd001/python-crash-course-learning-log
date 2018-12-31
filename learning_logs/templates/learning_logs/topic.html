@@ -1,12 +1,26 @@
 {% extends 'learning_logs/base.html' %}
+{% load bootstrap3 %}
+
 
 {% block header %}
   <h2>{{ topic }}</h2>
 {% endblock header %}
 
 {% block content %}
+
+  {% if messages %}
+    {% for message in messages %}
+      {% bootstrap_alert "Your entry was deleted!"  alert_type='success' %}
+    {% endfor %}
+  {% endif %}
+
   <p>
     <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
+  </p>
+  <p>
+    <a href="{% url 'learning_logs:delete_topic' topic.id %}">delete topic</a>
+
+    
   </p>
 
   {% for entry in entries %}
@@ -17,6 +31,9 @@
           <small>
               <a href="{% url 'learning_logs:edit_entry' entry.id %}">edit entry</a>
           </small>
+          <small>
+            <a href="{% url 'learning_logs:delete_entry' entry.id %}">delete entry</a>
+        </small>
         </h3>
       </div>
 
@@ -27,5 +44,7 @@
       {% empty %}
         There are no entries for this topic yet.
   {% endfor %}
+
+  
 
 {% endblock content %}
