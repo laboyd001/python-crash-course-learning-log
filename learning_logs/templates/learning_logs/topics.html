@@ -1,4 +1,6 @@
 {% extends "learning_logs/base.html" %}
+{% load bootstrap3 %}
+
 
 {% block header %}
   <h1>Topics</h1>
@@ -6,6 +8,12 @@
 
 {% block content %}
 
+  {% if messages %}
+      {% for message in messages %}
+        {% bootstrap_alert "Your topic was deleted!"  alert_type='success' %}
+      {% endfor %}
+  {% endif %}
+  
   <ul>
     {% for topic in topics %}
       <li>
@@ -19,5 +27,7 @@
   </ul>
 
   <h3><a href="{% url 'learning_logs:new_topic' %}">Add a new topic:</a></h3>
+
+ 
 
 {% endblock content %}

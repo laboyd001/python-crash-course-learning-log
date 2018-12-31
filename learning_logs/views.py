@@ -98,7 +98,21 @@ def delete_topic(request, topic_id):
     topics = Topic.objects.filter(owner=request.user).order_by('date_added')
 
     topic.delete()
-    messages.success(request, 'You have successfully deleted the topic!')
+    messages.success(request, 'Your topic has been deleted!')
+    return HttpResponseRedirect(reverse('learning_logs:topics'))
 
     context = {'topics': topics}
     return render(request, 'learning_logs/delete_topic.html', context)
+
+@login_required
+def delete_entry(request, entry_id):
+    """delete entry from topic"""
+    entry = Entry.objects.get(id=entry_id)
+    topic = entry.topic
+
+    entry.delete()
+    messages.success(request, 'Your topic has been deleted!')
+    return HttpResponseRedirect(reverse('learning_logs:topic', args=[topic.id]))
+
+    context = {'entry': entry, 'topic': topic}
+    return render(request, 'learning_logs/topic.html', context)
