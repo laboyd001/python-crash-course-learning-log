@@ -8,6 +8,11 @@
   <p>
     <a href="{% url 'learning_logs:new_entry' topic.id %}">add new entry</a>
   </p>
+  <p>
+    <a href="{% url 'learning_logs:delete_topic' topic.id %}">delete topic</a>
+
+    
+  </p>
 
   {% for entry in entries %}
     <div class="panel panel-default">
@@ -27,5 +32,7 @@
       {% empty %}
         There are no entries for this topic yet.
   {% endfor %}
+
+  
 
 {% endblock content %}

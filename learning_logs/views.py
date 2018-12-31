@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 
 from .models import Topic, Entry
 from .forms import TopicForm, EntryForm
+from django.contrib import messages
 
 # Create your views here.
 
@@ -89,3 +90,15 @@ def edit_entry(request, entry_id):
 
     context = {'entry': entry, 'topic': topic, 'form': form}
     return render(request, 'learning_logs/edit_entry.html', context)
+
+@login_required
+def delete_topic(request, topic_id):
+    """delete topic from learning log"""
+    topic = Topic.objects.get(id=topic_id)
+    topics = Topic.objects.filter(owner=request.user).order_by('date_added')
+
+    topic.delete()
+    messages.success(request, 'You have successfully deleted the topic!')
+
+    context = {'topics': topics}
+    return render(request, 'learning_logs/delete_topic.html', context)
